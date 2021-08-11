@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { KeyboardAvoidingView, View, Text, Image, TextInput, TouchableOpacity, Animated, Keyboard } from 'react-native';
-
+import { KeyboardAvoidingView, View, Text, Image, TextInput, TouchableOpacity, Animated, Keyboard, Alert } from 'react-native';
+import api from "../../service";
 import styles from './styles';
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [offset] = useState(new Animated.ValueXY({ x: 0, y: 80 }));
   const [opacity] = useState(new Animated.Value(0));
   const [logo] = useState(new Animated.ValueXY({ x: 170, y: 195 }));
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     keyboardDidShowListener
@@ -38,12 +41,14 @@ export default function Login() {
     Animated.parallel([
       Animated.timing(logo.x, {
         toValue: 95,
-        duration: 100
+        duration: 100,
+        useNativeDriver: false,
       }),
 
       Animated.timing(logo.y, {
         toValue: 105,
-        duration: 100
+        duration: 100,
+        useNativeDriver: false,
       })
     ]).start();
   }
@@ -52,14 +57,36 @@ export default function Login() {
     Animated.parallel([
       Animated.timing(logo.x, {
         toValue: 170,
-        duration: 100
+        duration: 100,
+        useNativeDriver: false,
       }),
 
       Animated.timing(logo.y, {
         toValue: 195,
-        duration: 100
+        duration: 100,
+        useNativeDriver: false,
       })
     ]).start();
+  };
+
+  verificar = () => {
+   if (email == '' || password == ''){
+    Alert.alert(
+      "Atenção!",
+      "Digite o Email e a senha!",
+      [
+        { text: "OK" }
+      ]
+    );
+    return '';
+   }
+
+   api.post("/api/login",{ email: email, password: password })
+      .then((response) => navigation.navigate('Tabs'))
+      .catch((err) => {
+        console.log("ops! ocorreu um erro" + err);
+      });
+
   };
 
   return (
@@ -89,27 +116,29 @@ export default function Login() {
           <TextInput
             style={styles.input}
             placeholder="Email"
+            placeholderTextColor="#000"
             keyboardType="email-address"
             textContentType="emailAddress"
             autoCapitalize="none"
             autoCompleteType="email"
             autoCorrect={false}
-            onChangeText={() => {}}
+            onChangeText={(email) => setEmail(email)}
           />
 
           <TextInput
             style={styles.input}
             placeholder="Senha"
+            placeholderTextColor="#000"
             //keyboardType="visible-password"
             textContentType="password"
             autoCapitalize="none"
             autoCompleteType="password"
             autoCorrect={false}
             secureTextEntry={true}
-            onChangeText={() => {}}
+            onChangeText={(password) => setPassword(password)}
           />
 
-          <TouchableOpacity style={styles.buttonSubmit}>
+          <TouchableOpacity style={styles.buttonSubmit} onPress={() => this.verificar()}>
             <Text style={styles.submitText}>Acessar</Text>
           </TouchableOpacity>
 
