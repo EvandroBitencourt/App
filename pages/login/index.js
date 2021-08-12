@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { KeyboardAvoidingView, View, Text, Image, TextInput, TouchableOpacity, Animated, Keyboard, Alert } from 'react-native';
+import { KeyboardAvoidingView, View, Text, TextInput, TouchableOpacity, Animated, Keyboard, Alert } from 'react-native';
+import { Button } from 'react-native-elements';
 import api from "../../service";
 import styles from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({ navigation }) {
   const [offset] = useState(new Animated.ValueXY({ x: 0, y: 80 }));
@@ -10,6 +12,7 @@ export default function Login({ navigation }) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     keyboardDidShowListener
@@ -69,22 +72,39 @@ export default function Login({ navigation }) {
     ]).start();
   };
 
+  const storeToken = async (value) => {
+    try {
+      await AsyncStorage.setItem('@storage_token', value)
+    } catch (e) {
+      // saving error
+    }
+  }
+
   verificar = () => {
+   setLoading(true);
    if (email == '' || password == ''){
     Alert.alert(
       "Atenção!",
       "Digite o Email e a senha!",
-      [
-        { text: "OK" }
-      ]
+      [ { text: "OK" } ]
     );
+    setLoading(false);
     return '';
    }
 
    api.post("/api/login",{ email: email, password: password })
-      .then((response) => navigation.navigate('Tabs'))
+      .then((response) => {
+        storeToken(response.access_token);
+        setLoading(false);
+        navigation.navigate('Tabs');
+      })
       .catch((err) => {
-        console.log("ops! ocorreu um erro" + err);
+        Alert.alert(
+          "Atenção!",
+          "Email e a senha Incorreto, Tente Novamente!",
+          [ { text: "OK" } ]
+        );
+        setLoading(false);
       });
 
   };
@@ -138,9 +158,7 @@ export default function Login({ navigation }) {
             onChangeText={(password) => setPassword(password)}
           />
 
-          <TouchableOpacity style={styles.buttonSubmit} onPress={() => this.verificar()}>
-            <Text style={styles.submitText}>Acessar</Text>
-          </TouchableOpacity>
+          <Button title="Acessar" loading={loading} onPress={() => this.verificar()} style={styles.buttonSubmit}/>
 
           <TouchableOpacity style={styles.buttonRegister}>
             <Text style={styles.registerText}>Criar conta gratuita</Text>
