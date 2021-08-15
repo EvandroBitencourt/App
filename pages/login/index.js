@@ -72,14 +72,7 @@ export default function Login({ navigation }) {
     ]).start();
   };
 
-  const storeToken = async (value) => {
-    try {
-      await AsyncStorage.setItem('@storage_token', value)
-    } catch (e) {
-      // saving error
-    }
-  }
-
+ 
   verificar = () => {
    setLoading(true);
    if (email == '' || password == ''){
@@ -94,9 +87,12 @@ export default function Login({ navigation }) {
 
    api.post("/api/login",{ email: email, password: password })
       .then((response) => {
-        storeToken(response.access_token);
-        setLoading(false);
-        navigation.navigate('Tabs');
+        AsyncStorage.setItem('storage_token', response.data.access_token).then((e) => {
+          setLoading(false);
+          navigation.navigate('Tabs');
+        }
+        );
+        
       })
       .catch((err) => {
         Alert.alert(
@@ -158,7 +154,7 @@ export default function Login({ navigation }) {
             onChangeText={(password) => setPassword(password)}
           />
 
-          <Button title="Acessar" loading={loading} onPress={() => this.verificar()} style={styles.buttonSubmit}/>
+          <Button title="Acessar" loading={loading} onPress={() => this.verificar()} buttonStyle={styles.buttonSubmit} containerStyle={{ width: "60%" }}/>
 
           <TouchableOpacity style={styles.buttonRegister}>
             <Text style={styles.registerText}>Criar conta gratuita</Text>
