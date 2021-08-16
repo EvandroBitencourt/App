@@ -1,24 +1,30 @@
 import React from 'react';
-import { Tab, TabView, Header } from 'react-native-elements';
+import { Tab, TabView, Header, Input} from 'react-native-elements';
 import { Comprar } from '../comprar/index';
 import { Vender } from '../vender/index';
 import { Checkkm } from '../checkkm/index';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 export default function Tabs({ navigation }) {
 
     const [index, setIndex] = React.useState(0);
 
+    const sairApp = () => {
+        console.log('ok')
+    }
+
     return (<>
+    
     <Header
     placement="left"
-    //leftComponent={{ icon: 'menu', color: '#fff' }}
-    centerComponent={{ text: 'Check KM', style: { color: '#fff' } }}
+    centerComponent={{ text: 'Check KM', style: { color: '#fff', fontSize: 20 }}}
     rightComponent={{ icon: 'home', color: '#fff' }}
     />
+    
     <Tab value={index} onChange={setIndex}>
-        <Tab.Item title="Comprar" icon={<Icon name="shopping-cart" size={30} color="white" /> } buttonStyle={styles.texto} />
+        <Tab.Item title="Comprar" icon={<Icon name="shopping-cart" size={30} color="white" /> } buttonStyle={styles.texto} containerStyle={styles.texto2}/>
         <Tab.Item title="Vender" icon={<Icon name="credit-card-alt" size={30} color="white" /> } buttonStyle={styles.texto}/>
         <Tab.Item title="Check KM" icon={<Icon name="car" size={30} color="white" /> } buttonStyle={styles.texto}/>
     </Tab>
@@ -34,12 +40,15 @@ export default function Tabs({ navigation }) {
         <Checkkm navigation={navigation} index={index}/>
     </TabView.Item>
     </TabView>
+    
     </>)
 }
 const styles = StyleSheet.create({
     texto: {
-        backgroundColor: '#1572aa',
+        backgroundColor: '#2089DC',
         color: '#fff',
-        fontSize: 2
+    },
+    texto2: {
+        fontSize: 20
     }
  })
