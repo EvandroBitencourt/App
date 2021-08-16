@@ -1,5 +1,5 @@
 import React from 'react';
-import {  SafeAreaView, ScrollView,View, Text, Image, Alert, ActivityIndicator } from 'react-native';
+import {  SafeAreaView, ScrollView,View, Text, Image, Alert, ActivityIndicator, StyleSheet } from 'react-native';
 import { Card, Button, Icon, Badge } from 'react-native-elements';
 import api from "../../service";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,6 +18,7 @@ export class Comprar extends React.Component {
                     click: response.data.clik,
                     anuncio: response.data.carros,
                 });
+                console.log(response.data.carros)
             })
             .catch((err) => {
                 Alert.alert(
@@ -38,10 +39,13 @@ export class Comprar extends React.Component {
         return (<>
         <SafeAreaView>
             <ScrollView>
+            <View style={styles.container}>
 
-            <Badge value="Carros Anunciados: ${this.state.click}" status="primary" />
-            <Badge value="Clicks : Ilimitado" status="success" />
-  
+                <Badge value={<Text style={styles.badge2}>Carros Anunciados: {this.state.carros }</Text>} status="primary" badgeStyle={{ height: 40 }} />
+
+                <Badge value={<Text style={styles.badge2}>Clicks: {this.state.click}</Text>} status="success" badgeStyle={{ height: 40 }} />
+            
+            </View>
             {this.state.anuncio.map((res, key)=> {
                 return (
                     <Card>
@@ -67,6 +71,8 @@ export class Comprar extends React.Component {
                     </Card>
                 ) 
             })}
+
+            {  this.state.anuncio ? <Text style={styles.anuncio}>Nenhum Carro Anunciado</Text> : null }
             
             </ScrollView>
         </SafeAreaView>
@@ -74,3 +80,21 @@ export class Comprar extends React.Component {
     }
     
 }
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "space-between",
+      backgroundColor: "#fff",
+      padding: 15,
+      margin: 10,
+    },
+    badge2: {
+        padding: 10,
+        fontSize: 15,
+        color: '#fff' 
+    },
+    anuncio: {
+        fontSize: 20,
+        textAlign: 'center'
+    }
+  });

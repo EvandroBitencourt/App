@@ -24,9 +24,9 @@ export default function Tabs({ navigation }) {
     />
     
     <Tab value={index} onChange={setIndex}>
-        <Tab.Item title="Comprar" icon={<Icon name="shopping-cart" size={30} color="white" /> } buttonStyle={styles.texto} containerStyle={styles.texto2}/>
-        <Tab.Item title="Vender" icon={<Icon name="credit-card-alt" size={30} color="white" /> } buttonStyle={styles.texto}/>
-        <Tab.Item title="Check KM" icon={<Icon name="car" size={30} color="white" /> } buttonStyle={styles.texto}/>
+        <Tab.Item title="Comprar" icon={<Icon name="shopping-cart" size={30} color="white" /> } buttonStyle={styles.texto} titleStyle={styles.texto2}/>
+        <Tab.Item title="Vender" icon={<Icon name="credit-card-alt" size={30} color="white" /> } buttonStyle={styles.texto} titleStyle={styles.texto2}/>
+        <Tab.Item title="Check-KM" icon={<Icon name="car" size={30} color="white" /> } buttonStyle={styles.texto} titleStyle={styles.texto2}/>
     </Tab>
 
     <TabView value={index} onChange={setIndex} >
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     texto2: {
-        fontSize: 20
+        color: '#fff',
+        fontSize: 14
     }
  })
