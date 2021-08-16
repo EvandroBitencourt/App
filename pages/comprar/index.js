@@ -18,7 +18,6 @@ export class Comprar extends React.Component {
                     click: response.data.clik,
                     anuncio: response.data.carros,
                 });
-                console.log(response.data.carros)
             })
             .catch((err) => {
                 Alert.alert(

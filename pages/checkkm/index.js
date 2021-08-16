@@ -8,34 +8,34 @@ export class Checkkm extends React.Component {
         this.state = { placa: '' };
     }
 
-    buscaPlaca() {
+    buscaPlaca = () => {
         console.log(this.state.placa);
     }
-
-
+  
     render() {
         return (<>
             <KeyboardAvoidingView>
                 <Text style={styles.text}>
                     Informe a Placa para Chegar
                 </Text>
-                <View >
+                <View > 
+                
                 <TextInput 
                     style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:20, marginBottom: 20, elevation: 3 }] }
                     placeholder="Digite a Placa"
                     placeholderTextColor="#000"
-                    keyboardType="default"
+                    //keyboardType="default"
                     autoCapitalize="none"
                     autoCompleteType="off"
                     onChangeText={text => this.setState({ placa: text})}
                     autoCorrect={false}
                     containerStyle={{ marginTop: 10 }}
                 />
-
+                
                 <Button
                     buttonStyle={{borderRadius: 0, marginLeft: 30, marginRight: 30, marginBottom: 0, backgroundColor: '#32CD32'}}
                     title='Check KM' 
-                    onPress={() => this.buscaPlaca() }
+                    onPress={this.buscaPlaca}
                 />
                 </View>
             </KeyboardAvoidingView>
