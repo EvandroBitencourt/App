@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native'
-import { Input, Text, Button } from 'react-native-elements';
+import { StyleSheet, SafeAreaView, ScrollView, View, TextInput } from 'react-native'
+import { Text, Button } from 'react-native-elements';
 import api from "../../service";
 
 export class Vender extends React.Component {
@@ -17,11 +17,50 @@ export class Vender extends React.Component {
             <ScrollView style={styles.view}>
 
                 <Text style={styles.text}>Anunciar o Veiculo</Text>
-                <Input 
-                placeholder='Placa do carro' 
-                //onChangeText={() => this.setState({ count: this.state.count + 1 })}
+
+                <TextInput 
+                    style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
+                    placeholder="Digite a Placa"
+                    placeholderTextColor="#000"
+                    autoCapitalize="none"
+                    autoCompleteType="off"
+                    //onChangeText={text => this.setState({ placa: text.replace("-", "") })}
+                    autoCorrect={false}
+                    containerStyle={{ marginTop: 10 }}
                 />
-                <Text>You clicked {this.state.count} times</Text>
+
+                <TextInput 
+                    style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
+                    placeholder="Digite a Quilimetragem"
+                    placeholderTextColor="#000"
+                    autoCapitalize="none"
+                    autoCompleteType="off"
+                    //onChangeText={text => this.setState({ placa: text.replace("-", "") })}
+                    autoCorrect={false}
+                    containerStyle={{ marginTop: 10 }}
+                />
+
+                <TextInput 
+                    style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
+                    placeholder="Digite a Versão"
+                    placeholderTextColor="#000"
+                    autoCapitalize="none"
+                    autoCompleteType="off"
+                    //onChangeText={text => this.setState({ placa: text.replace("-", "") })}
+                    autoCorrect={false}
+                    containerStyle={{ marginTop: 10 }}
+                />
+
+                <TextInput 
+                    style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
+                    placeholder="Selecione  Cambio"
+                    placeholderTextColor="#000"
+                    autoCapitalize="none"
+                    autoCompleteType="off"
+                    //onChangeText={text => this.setState({ placa: text.replace("-", "") })}
+                    autoCorrect={false}
+                    containerStyle={{ marginTop: 10 }}
+                />
                 
         
 
@@ -39,5 +78,14 @@ const styles = StyleSheet.create({
     text: {
         textAlign: 'center',
         fontSize: 30
-     }
+     },
+     input: {
+        backgroundColor: '#FFF',
+        width: '90%',
+        marginBottom: 15,
+        color: '#222',
+        fontSize: 22,
+        borderRadius: 7,
+        padding: 10,
+      },
  })

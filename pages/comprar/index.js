@@ -45,9 +45,9 @@ export class Comprar extends React.Component {
                 <Badge value={<Text style={styles.badge2}>Clicks: {this.state.click}</Text>} status="success" badgeStyle={{ height: 40 }} />
             
             </View>
-            {this.state.anuncio.map((res, key)=> {
+            {this.state.anuncio.map((res, i)=> {
                 return (
-                    <Card>
+                    <Card key={i}>
                         <Card.Title h3>{res.marca.toUpperCase()}</Card.Title>
                         <Card.Image source={{ uri: 'https://checkkm.com.br/storage/app/public/carros/' + res.principal }}  style={{ width: 200, height: 200  }} PlaceholderContent={<ActivityIndicator />}></Card.Image>
                         <Text style={{fontSize: 15}}>
