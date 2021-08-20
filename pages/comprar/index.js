@@ -1,5 +1,5 @@
 import React from 'react';
-import {  SafeAreaView, ScrollView,View, Text, Image, Alert, ActivityIndicator, StyleSheet } from 'react-native';
+import { ScrollView,View, Text, Alert, ActivityIndicator, StyleSheet } from 'react-native';
 import { Card, Button, Icon, Badge } from 'react-native-elements';
 import api from "../../service";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,6 +18,7 @@ export class Comprar extends React.Component {
                     click: response.data.clik,
                     anuncio: response.data.carros,
                 });
+                console.log(response.data.carros)
             })
             .catch((err) => {
                 Alert.alert(
@@ -29,14 +30,13 @@ export class Comprar extends React.Component {
         })
     }
 
-    detalheCarro = (id) => {
-        this.props.navigation.navigate('Detalhe');
-        console.log(id);
+    detalheCarro = (carro) => {
+        this.props.navigation.navigate('Detalhe', { carro: carro });
     }
 
     render() {
         return (<>
-        <SafeAreaView>
+        
             <ScrollView>
             <View style={styles.container}>
 
@@ -49,7 +49,9 @@ export class Comprar extends React.Component {
                 return (
                     <Card key={i}>
                         <Card.Title h3>{res.marca.toUpperCase()}</Card.Title>
-                        <Card.Image source={{ uri: 'https://checkkm.com.br/storage/app/public/carros/' + res.principal }}  style={{ width: 200, height: 200  }} PlaceholderContent={<ActivityIndicator />}></Card.Image>
+                        <View style={styles.container}>
+                        <Card.Image source={{ uri: 'https://checkkm.com.br/storage/app/public/carros/' + res.principal }}  style={{ width: 250, height: 200 }} PlaceholderContent={<ActivityIndicator />}></Card.Image>
+                        </View>
                         <Text style={{fontSize: 15}}>
                             MODELO: {res.modelo.toUpperCase()}
                         </Text>
@@ -66,7 +68,10 @@ export class Comprar extends React.Component {
                         icon={<Icon name='shopping-cart' color='#ffffff' />}
                         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: '#32CD32'}}
                         title='DAR O LANCE' 
-                        onPress={ () => this.detalheCarro(res.id) }/>
+                        onPress={ () => this.detalheCarro(res) }/>
+                        <Text style={{fontSize: 19,marginTop: 5}}>
+                            Essa oferta expira em: {(res) => { return res.tempo}}
+                        </Text>
                     </Card>
                 ) 
             })}
@@ -74,7 +79,6 @@ export class Comprar extends React.Component {
             {  this.state.anuncio ? <Text style={styles.anuncio}>Nenhum Carro Anunciado</Text> : null }
             
             </ScrollView>
-        </SafeAreaView>
         </>);
     }
     
@@ -95,5 +99,6 @@ const styles = StyleSheet.create({
     anuncio: {
         fontSize: 20,
         textAlign: 'center'
-    }
+    },
+    
   });

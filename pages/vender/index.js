@@ -1,13 +1,17 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, TextInput } from 'react-native'
+import { StyleSheet, SafeAreaView, ScrollView, View, TextInput, useState } from 'react-native'
 import { Text, Button } from 'react-native-elements';
+import {Picker} from '@react-native-picker/picker';
 import api from "../../service";
 
 export class Vender extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          count: 2
+          placa: '',
+          km: '',
+          versao: '',
+          cambio: '',
         };
       }
     render() {
@@ -24,7 +28,7 @@ export class Vender extends React.Component {
                     placeholderTextColor="#000"
                     autoCapitalize="none"
                     autoCompleteType="off"
-                    //onChangeText={text => this.setState({ placa: text.replace("-", "") })}
+                    onChangeText={text => this.setState({ placa: text.replace("-", "") })}
                     autoCorrect={false}
                     containerStyle={{ marginTop: 10 }}
                 />
@@ -35,7 +39,7 @@ export class Vender extends React.Component {
                     placeholderTextColor="#000"
                     autoCapitalize="none"
                     autoCompleteType="off"
-                    //onChangeText={text => this.setState({ placa: text.replace("-", "") })}
+                    onChangeText={text => this.setState({ km: text })}
                     autoCorrect={false}
                     containerStyle={{ marginTop: 10 }}
                 />
@@ -46,10 +50,21 @@ export class Vender extends React.Component {
                     placeholderTextColor="#000"
                     autoCapitalize="none"
                     autoCompleteType="off"
-                    //onChangeText={text => this.setState({ placa: text.replace("-", "") })}
+                    onChangeText={text => this.setState({ versao: text })}
                     autoCorrect={false}
                     containerStyle={{ marginTop: 10 }}
                 />
+
+                <Picker
+                selectedValue={this.state.cambio}
+                onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ cambio: itemValue})
+                }>
+                <Picker.Item label="Selecione tipo de Cambio" value="" />
+                <Picker.Item label="Manual" value="Manual" />
+                <Picker.Item label="Automático" value="Automático" />
+                <Picker.Item label="Automatizado" value="Automatizado" />
+                </Picker>
 
                 <TextInput 
                     style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
@@ -63,7 +78,9 @@ export class Vender extends React.Component {
                 />
                 
         
-
+                <View style={styles.button}>
+                    <Button title="Vender já" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={() => {}} />
+                </View>
             </ScrollView>
         </SafeAreaView>
     
