@@ -18,13 +18,13 @@ export class Comprar extends React.Component {
                     click: response.data.clik,
                     anuncio: response.data.carros,
                 });
-                console.log(response.data.carros)
+                
             })
             .catch((err) => {
                 Alert.alert(
                     "Atenção!",
                     "Erro, Verificar Conexão com a Intenet e Tente novamente!",
-                    [ { text: "OK" } ]
+                    [ { text: "OK", onPress: () => this.props.navigation.navigate('Login') } ]
                   );
             });
         })

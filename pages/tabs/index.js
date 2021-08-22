@@ -1,25 +1,35 @@
-import React from 'react';
-import { Tab, TabView, Header, Input} from 'react-native-elements';
+import React, {useEffect} from 'react';
+import { Tab,  Header, Button} from 'react-native-elements';
 import { Comprar } from '../comprar/index';
 import { Vender } from '../vender/index';
 import { Checkkm } from '../checkkm/index';
 import { StyleSheet, TextInput,View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Tabs({ navigation }) {
 
+    useEffect(() => {
+        AsyncStorage.getItem('storage_token').then(res => {
+            if(res == ''){
+                sairApp();
+            }
+        })
+    }, []);
+   
     const [index, setIndex] = React.useState(0);
     
     const sairApp = () => {
-        console.log('ok')
+        AsyncStorage.setItem('storage_token', '');
+        navigation.navigate('Login');
     }
 
     return (<>
-    <Header
-    placement="left"
-    centerComponent={{ text: 'Check KM', style: { color: '#fff', fontSize: 20 }}}
-    rightComponent={{ icon: 'home', color: '#fff' }}
-    />
+    <Header placement="center" >
+        <Button title="Lance" buttonStyle={styles.texto} onPress={ () => navigation.navigate('lance') }/>
+        <Button title="Check KM" buttonStyle={styles.texto} onPress={ () => setIndex(0) }/>
+        <Button title="SAIR" buttonStyle={styles.texto} onPress={ () => sairApp() }/>
+    </Header>
     
     <Tab value={index} onChange={setIndex}>
         <Tab.Item title="Comprar" icon={<Icon name="shopping-cart" size={30} color="white" /> } buttonStyle={styles.texto} titleStyle={styles.texto2}/>

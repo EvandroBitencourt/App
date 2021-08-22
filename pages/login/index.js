@@ -156,7 +156,7 @@ export default function Login({ navigation }) {
 
           <Button title="Acessar" loading={loading} onPress={() => this.verificar()} buttonStyle={styles.buttonSubmit} containerStyle={{ width: "60%" }}/>
 
-          <TouchableOpacity style={styles.buttonRegister}>
+          <TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate('register') }>
             <Text style={styles.registerText}>Criar conta gratuita</Text>
           </TouchableOpacity>
         </Animated.View>
