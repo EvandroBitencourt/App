@@ -3,6 +3,7 @@ import { ScrollView,View, Text, Alert, ActivityIndicator, StyleSheet } from 'rea
 import { Card, Button, Icon, Badge } from 'react-native-elements';
 import api from "../../service";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CountDown from 'react-native-countdown-component';
 
 export class Comprar extends React.Component {
     constructor(props) {
@@ -34,6 +35,19 @@ export class Comprar extends React.Component {
         this.props.navigation.navigate('Detalhe', { carro: carro });
     }
 
+    numberFormat = (value) => {
+        return 'R$ ' + value.replace('.',',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    }
+
+    tiraTempo = (tempo) => {
+        var array = tempo.split(':');
+        let hora = parseInt(array[0]) * 3600;
+        let minuto = parseInt(array[1]) * 60;
+        let segundo = parseInt(array[2]);
+
+        return  hora + minuto + segundo;
+    }
+
     render() {
         return (<>
         
@@ -47,6 +61,7 @@ export class Comprar extends React.Component {
             </View>
             {this.state.anuncio.map((res, i)=> {
                 return (
+                    
                     <Card key={i}>
                         <Card.Title h3>{res.marca.toUpperCase()}</Card.Title>
                         <View style={styles.container}>
@@ -59,7 +74,7 @@ export class Comprar extends React.Component {
                             ANO/MODELO: {res.anomodelo}
                         </Text>
                         <Text style={{fontSize: 20, color: 'green'}}>
-                            VALOR: R$ {res.preco}
+                            VALOR: { this.numberFormat(res.preco)}
                         </Text>
                         <Text style={{fontSize: 15,marginBottom: 5}}>
                             COR: {res.cor.toUpperCase()}
@@ -69,14 +84,23 @@ export class Comprar extends React.Component {
                         buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor: '#32CD32'}}
                         title='DAR O LANCE' 
                         onPress={ () => this.detalheCarro(res) }/>
-                        <Text style={{fontSize: 19,marginTop: 5}}>
-                            Essa oferta expira em: {(res) => { return res.tempo}}
+                        <Text style={{fontSize: 18,marginTop: 4}}>
+                            Essa oferta expira em: <CountDown
+                                                    until={this.tiraTempo(res.tempo)}
+                                                    size={13}
+                                                    digitStyle={{backgroundColor: '#FFF', borderWidth: 2, borderColor: '#1CC625'}}
+                                                    digitTxtStyle={{color: '#1CC625'}}
+                                                    timeLabelStyle={{color: 'red', fontWeight: 'bold'}}
+                                                    separatorStyle={{color: '#1CC625'}}
+                                                    timeToShow={['H', 'M', 'S']}
+                                                    timeLabels={{m: null, s: null}}
+                                                />
                         </Text>
                     </Card>
                 ) 
             })}
 
-            {  this.state.anuncio ? <Text style={styles.anuncio}>Nenhum Carro Anunciado</Text> : null }
+            {  this.state.anuncio.length == 0 ? <Text style={styles.anuncio}>Nenhum Carro Anunciado</Text> : null }
             
             </ScrollView>
         </>);

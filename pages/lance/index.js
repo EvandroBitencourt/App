@@ -4,16 +4,13 @@ import { Text, Button, ListItem } from 'react-native-elements';
 import api from "../../service";
 
 export default function lance({ navigation}) {
-
-    const [modelo, setModelo] = React.useState([]);
-    const [km, setKm] = React.useState([]);
-    
+  
 
     return (<>
     <SafeAreaView>
         <ScrollView>
             <View style={styles.view}>
-                <Text style={styles.texto}> Cadastre-se </Text>
+                <Text style={styles.texto}> Lances recebidos nos ultimos 3 dias </Text>
                 
 
                 
@@ -21,11 +18,7 @@ export default function lance({ navigation}) {
             </View>
 
             <View style={styles.button}>
-                <Button title="Cadastrar-se" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={() => navigation.goBack()} />
-            </View>
-
-            <View style={styles.button}>
-                <Button title="Cancelar" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={() => navigation.goBack()} />
+                <Button title="Voltar" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={() => navigation.goBack()} />
             </View>
         </ScrollView>
     </SafeAreaView>
@@ -39,7 +32,9 @@ const styles = StyleSheet.create({
     },
     button:{
         marginTop: 20,
-        marginBottom: 10
+        marginBottom: 10,
+        marginLeft:20, 
+        marginRight:20
     },
     texto:{
         fontSize: 20,

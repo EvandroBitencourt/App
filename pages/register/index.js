@@ -3,6 +3,7 @@ import { StyleSheet, SafeAreaView, ScrollView, View, TextInput, Alert } from 're
 import { Text, Button } from 'react-native-elements';
 import TextInputMask from 'react-native-text-input-mask';
 import api from "../../service";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function register({ navigation}) {
 
@@ -30,15 +31,25 @@ export default function register({ navigation}) {
               );
             return ;
         }
-
-        api.post("https://api.wipsites.com.br/dados/placa/" + this.state.placa, {} )
+        setLoading(true);
+        api.post("/api/register",{ name: nome, email: email, telefone: celular, password: senha})
         .then((response) => {
 
-            this.props.navigation.navigate('DetalheKm', { placa: response.data });
+            api.post("/api/login",{ email: email, password: senha })
+            .then((response) => {
+                AsyncStorage.setItem('storage_token', response.data.access_token).then((e) => {
+                setLoading(false);
+                navigation.navigate('Tabs');
+                }
+                );
+                
+            })
+            
         }).catch((err) => {
+            setLoading(false);
             Alert.alert(
               "Atenção!",
-              "Placa do Carro incorreta",
+              "Email já Cadastrado ou Senha tem que ser maior que 8 caracteres!",
               [ { text: "OK" } ]
             );
 
@@ -51,7 +62,7 @@ export default function register({ navigation}) {
     <SafeAreaView>
         <ScrollView>
             <View style={styles.view}>
-                <Text style={styles.texto}> Cadastre-se </Text>
+                <Text style={styles.texto}> Cadastre-se no Check KM</Text>
                 
                 <TextInput 
                     style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
@@ -119,7 +130,7 @@ export default function register({ navigation}) {
             </View>
 
             <View style={styles.button}>
-                <Button title="Cadastrar-se" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={() => registra() } />
+                <Button loading={loading} title="Cadastrar-se" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={() => registra() } />
             </View>
 
             <View style={styles.button}>

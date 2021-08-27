@@ -22,14 +22,14 @@ export default function DetalheKm({ navigation, route }) {
         carros.push({ titulo: "Procedencia", conteudo: route.params?.placa["dados_do_veiculo"].procedencia});
         carros.push({ titulo: "Quantidade de passageiro", conteudo: route.params?.placa["dados_do_veiculo"].quantidade_passageiro});
         carros.push({ titulo: "Tipo de Veiculo", conteudo: route.params?.placa["dados_do_veiculo"].tipo_de_veiculo});
-        carros.push({ titulo: "Tabela Fipe", conteudo: "R$ " + route.params?.placa["fipes"][0].valor.toLocaleString('pt-br', {minimumFractionDigits: 2}) });
+        carros.push({ titulo: "Tabela Fipe", conteudo: "R$ " + route.params?.placa["fipes"][0].valor.toFixed(2).replace('.',',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') });
         setModelo(carros);
 
         let km = [];
         api.get("https://checkkm.com.br/km?placa=" + route.params?.placa["dados_do_veiculo"].placa)
             .then((response) => {
                 if(response.data[0] > 0){
-                    km.push({conteudo: "Km " + response.data[0] + " Data: " + response.data[1]})
+                    km.push({conteudo: "Km " + response.data[0] + " Data: " + new Date(Date(response.data[1])).getDate() + "/" + new Date(Date(response.data[1])).getMonth() + "/" + new Date(Date(response.data[1])).getFullYear()  })
                     setKm(km)
                 }
             }).catch((err) => { });

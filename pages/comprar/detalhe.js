@@ -5,6 +5,7 @@
     import AsyncStorage from '@react-native-async-storage/async-storage';
     import Carousel from 'react-native-snap-carousel';
     import { scrollInterpolator, animatedStyles } from './animations';
+    import CurrencyInput from 'react-native-currency-input';
 
     const SLIDER_WIDTH = Dimensions.get('window').width;
     const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.9);
@@ -190,20 +191,24 @@
                         CARRO DE LEILÃO: {carro[0]?.leilao == 0 ? <Badge value="NÃO" status="error"/> : <Badge value="SIM" status="success"/>}
                     </Text>
                     <Text style={{fontSize: 30, textAlign: 'center',marginTop: 10, color: 'green'}}>
-                        VALOR: R$ {carro[0]?.preco }
+                        VALOR: R$ {carro[0]?.preco.replace('.',',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }
                     </Text>
 
-                    <TextInput 
-                    style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:20, marginBottom: 20, elevation: 3 }] }
-                    placeholder="Digite o Valor do Lance"
-                    placeholderTextColor="#000"
-                    keyboardType='numeric'
-                    autoCapitalize="none"
-                    autoCompleteType="off"
-                    onChangeText={text => setValor(text.replace(/[^0-9]/g, ''))}
-                    autoCorrect={false}
-                    containerStyle={{ marginTop: 10 }}
-                    />
+                    <Text style={{ textAlign: 'center', fontSize: 15, marginTop: 15 }}>Informe o Valor do lance</Text>
+
+                    <CurrencyInput
+                        style={[styles.input, {marginLeft:20, marginRight:20 , marginTop: 5, marginBottom: 20, elevation: 3 }] }
+                        value={valor}
+                        onChangeValue={setValor}
+                        placeholder="Digite o Valor do Lance"
+                        prefix="R$"
+                        delimiter=","
+                        separator="."
+                        precision={2}
+                        //onChangeText={(formattedValue) => {
+                            //setValor(formattedValue); // $2,310.46
+                        //}}
+                        />
                 </View>    
                 <View style={styles.button}>
                     <Button loading={loading} title="Confirmar Lance" buttonStyle={{ backgroundColor: 'dodgerblue', marginLeft: 20, marginRight: 20}} onPress={() => fazerLance(carro[0]?.id) } />
