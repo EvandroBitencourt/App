@@ -1,9 +1,13 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, TextInput} from 'react-native'
+import { StyleSheet, ScrollView, View, TextInput,TouchableOpacity, Alert} from 'react-native'
 import { Text, Button } from 'react-native-elements';
 import Picker from 'react-native-universal-picker';
+import { ActivityIndicator } from 'react-native';
+import { Image } from 'react-native-elements';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import api from "../../service";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class Vender extends React.Component {
     constructor(props) {
@@ -34,8 +38,198 @@ export class Vender extends React.Component {
           leilao : false,
           obs: '',
           telefone: '',
+          resourcePath: {},
+          foto01: '',
+          foto02: '',
+          foto03: '',
+          foto04: '',
+          foto05: '',
+          foto06: '',
+          fotomomento: '',
         };
       }
+      vender = () => {
+          if(this.state.placa == '' || this.state.km == '' || this.state.versao == '' || this.state.cambio == '' || this.state.direcao == '' || this.state.motor == '' || this.state.preco == '' || this.state.foto01 == ''){
+            Alert.alert(
+                "Atenção!",
+                "INFORMAÇÕES NÃO PREENCIDAS!",
+                [ { text: "OK" } ]
+              );
+            return;
+          }
+          this.setState({ loading: true});
+          AsyncStorage.getItem('storage_token').then(res => {
+             
+            var data = new FormData();
+            data.append('api', true);
+            data.append('versao', this.state.versao);
+            data.append('cambio', this.state.cambio);
+            data.append('direcao', this.state.direcao);
+            data.append('motor', this.state.motor);
+            data.append('km', this.state.km);
+            data.append('airbag', this.state.airbag);
+            data.append('alarme', this.state.alarme);
+            data.append('arcondicionado', this.state.arcondicionado);
+            data.append('travaeletrica', this.state.travaeletrica);
+            data.append('vidroeletrico', this.state.vidroeletrico);
+            data.append('som', this.state.som);
+            data.append('sensorre', this.state.sensordere);
+            data.append('camerare', this.state.cameradere);
+            data.append('blindado', this.state.blindado);
+            data.append('aceitatrocas', this.state.aceitatrocas);
+            data.append('financiado', this.state.financiado);
+            data.append('ipva', this.state.ipvaatraso);
+            data.append('multas', this.state.multas);
+            data.append('leilao', this.state.leilao);
+            data.append('unicodono', this.state.unicodono);
+            data.append('preco', this.state.preco);
+            data.append('contato', this.state.telefone);
+            data.append('obs', this.state.obs);
+
+
+            data.append('foto',{
+                uri: Platform.OS === 'android' ? this.state.foto01 : 'file://' + this.state.foto01,
+                name: 'test',
+                type: 'image/jpeg' // or your mime type what you want
+            });
+
+            if(this.state.foto02 != ''){
+                data.append('foto01',{
+                    uri: Platform.OS === 'android' ? this.state.foto02 : 'file://' + this.state.foto02,
+                    name: 'test',
+                    type: 'image/jpeg' // or your mime type what you want
+                });
+            }
+
+            if(this.state.foto03 != ''){
+                data.append('foto02',{
+                    uri: Platform.OS === 'android' ? this.state.foto03 : 'file://' + this.state.foto03,
+                    name: 'test',
+                    type: 'image/jpeg' // or your mime type what you want
+                });
+            }
+
+            if(this.state.foto04 != ''){
+                data.append('foto03',{
+                    uri: Platform.OS === 'android' ? this.state.foto04 : 'file://' + this.state.foto04,
+                    name: 'test',
+                    type: 'image/jpeg' // or your mime type what you want
+                });
+            }
+
+            if(this.state.foto05 != ''){
+                data.append('foto04',{
+                    uri: Platform.OS === 'android' ? this.state.foto05 : 'file://' + this.state.foto05,
+                    name: 'test',
+                    type: 'image/jpeg' // or your mime type what you want
+                });
+            }
+
+            if(this.state.foto06 != ''){
+                data.append('foto05',{
+                    uri: Platform.OS === 'android' ? this.state.foto06 : 'file://' + this.state.foto06,
+                    name: 'test',
+                    type: 'image/jpeg' // or your mime type what you want
+                });
+            }
+
+            api.defaults.headers.common = {"Authorization" : `Bearer ${res}`, 'Content-Type': 'multipart/form-data'}
+            api.post("/api/auth/vender", data)
+            .then((response) => {
+                console.log(response.data)
+                // Alert.alert(
+                //     "Parabens!",
+                //     "Carro Anunciado com sucesso!",
+                //     [ { text: "OK", onPress: () => this.props.navigation.navigate('Tabs') } ]
+                //   );
+                this.setState({ loading: false});
+            })
+            .catch((err) => {
+                Alert.alert(
+                    "Atenção!",
+                    "Placa não encontrada, tente novamente!",
+                    [ { text: "OK" } ]
+                  );
+                  this.setState({ loading: false});
+            });
+        })
+
+      }
+
+
+      foto01 = () => {
+        this.setState({fotomomento: 'foto01'});
+        this.selectFile();
+      }
+      foto02 = () => {
+        this.setState({fotomomento: 'foto02'});
+        this.selectFile();
+      }
+      foto03 = () => {
+        this.setState({fotomomento: 'foto03'});
+        this.selectFile();
+      }
+      foto04 = () => {
+        this.setState({fotomomento: 'foto04'});
+        this.selectFile();
+      }
+      foto05 = () => {
+        this.setState({fotomomento: 'foto05'});
+        this.selectFile();
+      }
+      foto06 = () => {
+        this.setState({fotomomento: 'foto06'});
+        this.selectFile();
+      }
+      selectFile = () => {
+          
+        var options = {
+          title: 'Select Image',
+          customButtons: [
+            { 
+              name: 'customOptionKey', 
+              title: 'Choose file from Custom Option' 
+            },
+          ],
+          storageOptions: {
+            skipBackup: true,
+            path: 'images',
+          },
+        };
+    
+        launchCamera(options, (response) => { // Use launchImageLibrary to open image gallery
+          
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.error) {
+              console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+              console.log('User tapped custom button: ', response.customButton);
+            } else {
+                
+              if (this.state.fotomomento == "foto01"){
+                  this.setState({ foto01: response.assets[0].uri })
+              }
+              if (this.state.fotomomento == "foto02"){
+                this.setState({ foto02: response.assets[0].uri })
+              }
+              if (this.state.fotomomento == "foto03"){
+                this.setState({ foto03: response.assets[0].uri })
+              }
+              if (this.state.fotomomento == "foto04"){
+                this.setState({ foto04: response.assets[0].uri })
+              }
+              if (this.state.fotomomento == "foto05"){
+                this.setState({ foto05: response.assets[0].uri })
+              }
+              if (this.state.fotomomento == "foto06"){
+                this.setState({ foto06: response.assets[0].uri })
+              }
+
+            }
+        });
+      };
+
     render() {
         return (<>
             <ScrollView style={styles.view}>
@@ -404,11 +598,52 @@ export class Vender extends React.Component {
                     containerStyle={{ marginTop: 10 }}
                 />
 
+                <Text style={[styles.text,{marginBottom: 10}]}>Imagens do Veiculo</Text>
 
-                <Text style={styles.text}>Imagens do Veiculo</Text>
+                {this.state.foto01 == '' ? <Text style={{textAlign: 'center'}}>Foto da Frente não informada</Text> : <View style={{justifyContent: 'center', alignItems: 'center'}}><Image source={{ uri: this.state.foto01 }} style={{ width: 200, height: 200 }}  PlaceholderContent={<ActivityIndicator />}/></View>}
+                <View style={styles.button}>
+                    <TouchableOpacity onPress={this.foto01}>
+                        <Text style={styles.foto}>Tirar Foto Frente</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {this.state.foto02 == '' ? <Text style={{textAlign: 'center'}}>Foto Lateral Motorista não informada</Text> : <View style={{justifyContent: 'center', alignItems: 'center'}}><Image source={{ uri: this.state.foto02 }} style={{ width: 200, height: 200 }}  PlaceholderContent={<ActivityIndicator />}/></View>}
+                <View style={styles.button}>
+                    <TouchableOpacity onPress={this.foto02}>
+                        <Text style={styles.foto}>Tirar Foto Lateral Motorista</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {this.state.foto03 == '' ? <Text style={{textAlign: 'center'}}>Foto Lateral Passageiro não informada</Text> : <View style={{justifyContent: 'center', alignItems: 'center'}}><Image source={{ uri: this.state.foto03 }} style={{ width: 200, height: 200 }}  PlaceholderContent={<ActivityIndicator />}/></View>}
+                <View style={styles.button}>
+                    <TouchableOpacity onPress={this.foto03}>
+                        <Text style={styles.foto}>Tirar Foto Lateral Passageiro</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {this.state.foto04 == '' ? <Text style={{textAlign: 'center'}}>Foto Traseira não informada</Text> : <View style={{justifyContent: 'center', alignItems: 'center'}}><Image source={{ uri: this.state.foto04 }} style={{ width: 200, height: 200 }}  PlaceholderContent={<ActivityIndicator />}/></View>}
+                <View style={styles.button}>
+                    <TouchableOpacity onPress={this.foto04}>
+                        <Text style={styles.foto}>Tirar Foto Traseira</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {this.state.foto05 == '' ? <Text style={{textAlign: 'center'}}>Foto Traseira não informada</Text> : <View style={{justifyContent: 'center', alignItems: 'center'}}><Image source={{ uri: this.state.foto05 }} style={{ width: 200, height: 200 }}  PlaceholderContent={<ActivityIndicator />}/></View>}
+                <View style={styles.button}>
+                    <TouchableOpacity onPress={this.foto05}>
+                        <Text style={styles.foto}>Tirar Foto Capo Aberto</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {this.state.foto06 == '' ? <Text style={{textAlign: 'center'}}>Foto Kilometragem não informada</Text> : <View style={{justifyContent: 'center', alignItems: 'center'}}><Image source={{ uri: this.state.foto06 }} style={{ width: 200, height: 200 }}  PlaceholderContent={<ActivityIndicator />}/></View>}
+                <View style={styles.button}>
+                    <TouchableOpacity onPress={this.foto06}>
+                        <Text style={styles.foto}>Tirar Foto Kilometragem</Text>
+                    </TouchableOpacity>
+                </View>
 
                 <View style={styles.button}>
-                    <Button loading={this.state.loading}title="Vender já" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={() => {}} />
+                    <Button loading={this.state.loading}title="Vender já" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={this.vender} />
                 </View>
             </ScrollView>
 
@@ -449,5 +684,13 @@ const styles = StyleSheet.create({
       },
       checkbox: {
           textAlign: 'center'
+      },
+      foto: {
+          fontSize: 15,
+          backgroundColor: '#0bbcc9',
+          textAlign: 'center',
+          borderRadius: 2,
+          color: '#fff',
+          padding: 10
       }
  })
