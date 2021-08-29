@@ -80,7 +80,6 @@
                 source={{ uri: 'https://checkkm.com.br/storage/app/public/carros/' + item}}
                 style={styles.itemContainer}
                  />
-               // <Text style={styles.itemLabel}>{`Item ${item}`}</Text>
             );
           }
         
@@ -199,16 +198,16 @@
                     <CurrencyInput
                         style={[styles.input, {marginLeft:20, marginRight:20 , marginTop: 5, marginBottom: 20, elevation: 3 }] }
                         value={valor}
-                        onChangeValue={setValor}
+                        //onChangeValue={setValor}
                         placeholder="Digite o Valor do Lance"
                         prefix="R$"
-                        delimiter=","
-                        separator="."
+                        delimiter="."
+                        separator=","
                         precision={2}
-                        //onChangeText={(formattedValue) => {
-                            //setValor(formattedValue); // $2,310.46
-                        //}}
-                        />
+                        onChangeValue={(formattedValue) => {
+                            setValor(formattedValue); // $2,310.46
+                        }}
+                    />
                 </View>    
                 <View style={styles.button}>
                     <Button loading={loading} title="Confirmar Lance" buttonStyle={{ backgroundColor: 'dodgerblue', marginLeft: 20, marginRight: 20}} onPress={() => fazerLance(carro[0]?.id) } />

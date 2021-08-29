@@ -8,6 +8,8 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import api from "../../service";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TextInputMask from 'react-native-text-input-mask';
+import CurrencyInput from 'react-native-currency-input';
 
 export class Vender extends React.Component {
     constructor(props) {
@@ -49,7 +51,7 @@ export class Vender extends React.Component {
         };
       }
       vender = () => {
-          if(this.state.placa == '' || this.state.km == '' || this.state.versao == '' || this.state.cambio == '' || this.state.direcao == '' || this.state.motor == '' || this.state.preco == '' || this.state.foto01 == ''){
+          if(this.state.placa == '' || this.state.km == '' || this.state.versao == '' || this.state.cambio == '' || this.state.direcao == '' || this.state.motor == '' || this.state.preco == 0 || this.state.foto01 == ''){
             Alert.alert(
                 "Atenção!",
                 "INFORMAÇÕES NÃO PREENCIDAS!",
@@ -58,100 +60,89 @@ export class Vender extends React.Component {
             return;
           }
           this.setState({ loading: true});
-          AsyncStorage.getItem('storage_token').then(res => {
+          var formData = new FormData();
+            formData.append('api', true);
+            formData.append('placa', this.state.placa);
+            formData.append('versao', this.state.versao);
+            formData.append('cambio', this.state.cambio);
+            formData.append('direcao', this.state.direcao);
+            formData.append('motor', this.state.motor);
+            formData.append('km', this.state.km);
+            formData.append('preco', this.state.preco);
+            this.state.airbag != '' ? formData.append('airbag', this.state.airbag) : null;
+            this.state.alarme != '' ? formData.append('alarme', this.state.alarme) : null;
+            this.state.arcondicionado != '' ? formData.append('arcondicionado', this.state.arcondicionado) : null;
+            this.state.travaeletrica != '' ? formData.append('travaeletrica', this.state.travaeletrica) : null;
+            this.state.vidroeletrico != '' ? formData.append('vidroeletrico', this.state.vidroeletrico) : null;
+            this.state.som != '' ? formData.append('som', this.state.som) : null;
+            this.state.sensordere != '' ? formData.append('sensorre', this.state.sensordere) : null;
+            this.state.cameradere != '' ? formData.append('camerare', this.state.cameradere) : null;
+            this.state.blindado != '' ? formData.append('blindado', this.state.blindado) : null;
+            this.state.aceitatrocas != '' ? formData.append('aceitatrocas', this.state.aceitatrocas) : null;
+            this.state.financiado != '' ? formData.append('financiado', this.state.financiado) : null;
+            this.state.ipvaatraso != '' ? formData.append('ipva', this.state.ipvaatraso) : null;
+            this.state.multas != '' ? formData.append('multas', this.state.multas) : null;
+            this.state.leilao != '' ? formData.append('leilao', this.state.leilao) : null;
+            this.state.unicodono != '' ? formData.append('unicodono', this.state.unicodono) : null;
+            this.state.telefone != '' ? formData.append('contato', this.state.telefone) : null;
+            this.state.obs != '' ? formData.append('obs', this.state.obs) : null;
+            formData.append('foto',  {
+                 uri: Platform.OS === 'android' ? this.state.foto01 : 'file://' + this.state.foto01,
+                 name: 'carro',
+                 type: 'image/jpeg' 
+                 })
+                 
+            this.state.foto02 != '' ? formData.append('foto01',  {
+                uri: Platform.OS === 'android' ? this.state.foto02 : 'file://' + this.state.foto02,
+                name: 'carro',
+                type: 'image/jpeg' 
+                }) : null;
              
-            var data = new FormData();
-            data.append('api', true);
-            data.append('versao', this.state.versao);
-            data.append('cambio', this.state.cambio);
-            data.append('direcao', this.state.direcao);
-            data.append('motor', this.state.motor);
-            data.append('km', this.state.km);
-            data.append('airbag', this.state.airbag);
-            data.append('alarme', this.state.alarme);
-            data.append('arcondicionado', this.state.arcondicionado);
-            data.append('travaeletrica', this.state.travaeletrica);
-            data.append('vidroeletrico', this.state.vidroeletrico);
-            data.append('som', this.state.som);
-            data.append('sensorre', this.state.sensordere);
-            data.append('camerare', this.state.cameradere);
-            data.append('blindado', this.state.blindado);
-            data.append('aceitatrocas', this.state.aceitatrocas);
-            data.append('financiado', this.state.financiado);
-            data.append('ipva', this.state.ipvaatraso);
-            data.append('multas', this.state.multas);
-            data.append('leilao', this.state.leilao);
-            data.append('unicodono', this.state.unicodono);
-            data.append('preco', this.state.preco);
-            data.append('contato', this.state.telefone);
-            data.append('obs', this.state.obs);
+            this.state.foto03 != '' ? formData.append('foto02',  {
+                uri: Platform.OS === 'android' ? this.state.foto03 : 'file://' + this.state.foto03,
+                name: 'carro',
+                type: 'image/jpeg' 
+                }) : null;   
+                
+            this.state.foto04 != '' ? formData.append('foto03',  {
+                uri: Platform.OS === 'android' ? this.state.foto04 : 'file://' + this.state.foto04,
+                name: 'carro',
+                type: 'image/jpeg' 
+                }) : null; 
 
+            this.state.foto05 != '' ? formData.append('foto04',  {
+                uri: Platform.OS === 'android' ? this.state.foto05 : 'file://' + this.state.foto05,
+                name: 'carro',
+                type: 'image/jpeg' 
+                }) : null;    
 
-            data.append('foto',{
-                uri: Platform.OS === 'android' ? this.state.foto01 : 'file://' + this.state.foto01,
-                name: 'test',
-                type: 'image/jpeg' // or your mime type what you want
-            });
+            this.state.foto06 != '' ? formData.append('foto05',  {
+                uri: Platform.OS === 'android' ? this.state.foto06 : 'file://' + this.state.foto06,
+                name: 'carro',
+                type: 'image/jpeg' 
+                }) : null;      
 
-            if(this.state.foto02 != ''){
-                data.append('foto01',{
-                    uri: Platform.OS === 'android' ? this.state.foto02 : 'file://' + this.state.foto02,
-                    name: 'test',
-                    type: 'image/jpeg' // or your mime type what you want
-                });
-            }
-
-            if(this.state.foto03 != ''){
-                data.append('foto02',{
-                    uri: Platform.OS === 'android' ? this.state.foto03 : 'file://' + this.state.foto03,
-                    name: 'test',
-                    type: 'image/jpeg' // or your mime type what you want
-                });
-            }
-
-            if(this.state.foto04 != ''){
-                data.append('foto03',{
-                    uri: Platform.OS === 'android' ? this.state.foto04 : 'file://' + this.state.foto04,
-                    name: 'test',
-                    type: 'image/jpeg' // or your mime type what you want
-                });
-            }
-
-            if(this.state.foto05 != ''){
-                data.append('foto04',{
-                    uri: Platform.OS === 'android' ? this.state.foto05 : 'file://' + this.state.foto05,
-                    name: 'test',
-                    type: 'image/jpeg' // or your mime type what you want
-                });
-            }
-
-            if(this.state.foto06 != ''){
-                data.append('foto05',{
-                    uri: Platform.OS === 'android' ? this.state.foto06 : 'file://' + this.state.foto06,
-                    name: 'test',
-                    type: 'image/jpeg' // or your mime type what you want
-                });
-            }
-
-            api.defaults.headers.common = {"Authorization" : `Bearer ${res}`, 'Content-Type': 'multipart/form-data'}
-            api.post("/api/auth/vender", data)
-            .then((response) => {
-                console.log(response.data)
-                // Alert.alert(
-                //     "Parabens!",
-                //     "Carro Anunciado com sucesso!",
-                //     [ { text: "OK", onPress: () => this.props.navigation.navigate('Tabs') } ]
-                //   );
-                this.setState({ loading: false});
-            })
-            .catch((err) => {
-                Alert.alert(
-                    "Atenção!",
-                    "Placa não encontrada, tente novamente!",
-                    [ { text: "OK" } ]
-                  );
-                  this.setState({ loading: false});
-            });
+          AsyncStorage.getItem('storage_token').then(res => {
+            api.post('/api/auth/vender', formData, {headers: { 'Authorization' : `Bearer ${res}`,'Content-Type': 'multipart/form-data' }} )      
+                .then((response) => {
+                    Alert.alert(
+                        "Atenção!",
+                        response.data.msg,
+                        [ { text: "OK" } ]
+                      );
+                    this.setState({ loading: false})
+                    this.props.setIndex(0);
+                })
+                .catch((error) => {
+                    Alert.alert(
+                        "Atenção!",
+                        error,
+                        [ { text: "OK" } ]
+                      );
+                    this.setState({ loading: false})
+                })
+            
+            
         })
 
       }
@@ -251,6 +242,7 @@ export class Vender extends React.Component {
                     style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
                     placeholder="Digite a Quilimetragem"
                     placeholderTextColor="#000"
+                    keyboardType='numeric'
                     autoCapitalize="none"
                     autoCompleteType="off"
                     onChangeText={text => this.setState({ km: text })}
@@ -366,17 +358,6 @@ export class Vender extends React.Component {
                     </Picker>
                 </View>
 
-                <TextInput 
-                    style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
-                    placeholder="Digite o Preço"
-                    placeholderTextColor="#000"
-                    autoCapitalize="none"
-                    autoCompleteType="off"
-                    onChangeText={text => this.setState({ preco: text })}
-                    autoCorrect={false}
-                    containerStyle={{ marginTop: 10 }}
-                />
-                
                 <Text style={styles.text}>Acessórios</Text>
                 
                 <View style={{  marginLeft: 60, marginTop: 10 }} >
@@ -587,15 +568,19 @@ export class Vender extends React.Component {
                     containerStyle={{ marginTop: 10 }}
                 />
 
-                <TextInput 
+                <TextInputMask 
                     style={[styles.input, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }
                     placeholder="Telefone Adicional"
+                    keyboardType='numeric'
                     placeholderTextColor="#000"
                     autoCapitalize="none"
                     autoCompleteType="off"
-                    onChangeText={text => this.setState({ telefone: text })}
+                    onChangeText={(formatted, extracted) => {
+                        this.setState({ telefone: formatted })
+                      }}
                     autoCorrect={false}
                     containerStyle={{ marginTop: 10 }}
+                    mask={"([00]) [0] [0000] [0000]"}
                 />
 
                 <Text style={[styles.text,{marginBottom: 10}]}>Imagens do Veiculo</Text>
@@ -641,6 +626,20 @@ export class Vender extends React.Component {
                         <Text style={styles.foto}>Tirar Foto Kilometragem</Text>
                     </TouchableOpacity>
                 </View>
+                <Text style={{ textAlign: 'center', fontSize: 15, marginTop: 15 }}>Valor do Veiculo</Text>
+
+                <CurrencyInput
+                    style={[styles.input, {marginLeft:20, marginRight:20 , marginTop: 5, marginBottom: 20, elevation: 3 }] }
+                    value={this.state.preco}
+                    //onChangeValue={this.setState}
+                    prefix="R$"
+                    delimiter="."
+                    separator=","
+                    precision={2}
+                    onChangeValue={(formattedValue) => {
+                        this.setState({ preco: formattedValue }) 
+                    }}
+                />
 
                 <View style={styles.button}>
                     <Button loading={this.state.loading}title="Vender já" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={this.vender} />

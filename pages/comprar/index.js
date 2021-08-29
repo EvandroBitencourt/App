@@ -8,7 +8,7 @@ import CountDown from 'react-native-countdown-component';
 export class Comprar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { carros: 0, click: 0, anuncio: [] };
+        this.state = { carros: 0, click: 0, anuncio: [], lance: 0 };
 
         AsyncStorage.getItem('storage_token').then(res => {
             api.defaults.headers.common = {"Authorization" : `Bearer ${res}`}
@@ -27,6 +27,13 @@ export class Comprar extends React.Component {
                     "Erro, Verificar Conexão com a Intenet e Tente novamente!",
                     [ { text: "OK", onPress: () => this.props.navigation.navigate('Login') } ]
                   );
+            });
+            api.defaults.headers.common = {"Authorization" : `Bearer ${res}`}
+            api.post("/api/auth/verificalance")
+            .then((response) => {
+                this.setState({lance: response.data.length});
+            }).catch((err) => { 
+                
             });
         })
     }
@@ -54,9 +61,9 @@ export class Comprar extends React.Component {
             <ScrollView>
             <View style={styles.container}>
 
-                <Badge value={<Text style={styles.badge2}>Carros Anunciados: {this.state.carros }</Text>} status="primary" badgeStyle={{ height: 40 }} />
-
-                <Badge value={<Text style={styles.badge2}>Clicks: {this.state.click}</Text>} status="success" badgeStyle={{ height: 40 }} />
+                {this.state.lance > 0 ? <Badge value={<Text style={styles.badge2}>Você Recebeu {this.state.lance } Lances</Text>} status="primary" badgeStyle={{ height: 40 }} />: null}
+                
+                <Badge value={<Text style={styles.badge2}>Meus Clicks: {this.state.click}</Text>} status="success" badgeStyle={{ height: 40 }} />
             
             </View>
             {this.state.anuncio.map((res, i)=> {

@@ -1,23 +1,24 @@
 import React, {useEffect} from 'react';
-import { Tab,  Header, Button} from 'react-native-elements';
+import { Tab,  Header, Button, Badge, Text} from 'react-native-elements';
 import { Comprar } from '../comprar/index';
 import { Vender } from '../vender/index';
 import { Checkkm } from '../checkkm/index';
 import { StyleSheet, TextInput,View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from "../../service";
 
 export default function Tabs({ navigation }) {
-
+    const [index, setIndex] = React.useState(0);
+ 
     useEffect(() => {
         AsyncStorage.getItem('storage_token').then(res => {
             if(res == ''){
                 sairApp();
             }
+
         })
     }, []);
-   
-    const [index, setIndex] = React.useState(0);
     
     const sairApp = () => {
         AsyncStorage.setItem('storage_token', '');
@@ -40,7 +41,7 @@ export default function Tabs({ navigation }) {
     {(() => {
         switch (index) {
           case 0:   return <Comprar navigation={navigation} index={index}/>;
-          case 1:   return <Vender index={index} />;
+          case 1:   return <Vender navigation={navigation} setIndex={setIndex} />;
           case 2:   return <Checkkm navigation={navigation} index={index}/>;
           default:  return <Comprar navigation={navigation} index={index}/>;
         }
