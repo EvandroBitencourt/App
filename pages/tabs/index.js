@@ -6,7 +6,6 @@ import { Checkkm } from '../checkkm/index';
 import { StyleSheet, TextInput,View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from "../../service";
 
 export default function Tabs({ navigation }) {
     const [index, setIndex] = React.useState(0);

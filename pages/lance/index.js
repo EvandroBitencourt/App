@@ -34,9 +34,10 @@ export default function lance({ navigation}) {
                         <Text style={styles.conteudo}> MODELO: {res.modelo} </Text>
                         <Text style={styles.conteudo}> VERSÃO: {res.versao} </Text>
                         <Text style={styles.conteudo}> ANO/MODELO: {res.anomodelo}</Text>
-                        <Text style={styles.conteudo}>VALOR ANUNCIADO: { numberFormat(res.preco)}</Text>
-                        <Text style={styles.conteudo}>VALOR DO LANCE: {numberFormat(res.obs)}</Text>
-                        <Text style={styles.conteudo}>CONTATO: {res.telefone}</Text>
+                        <Text style={styles.conteudo}> VALOR ANUNCIADO: { numberFormat(res.preco)}</Text>
+                        <Text style={styles.conteudo}> VALOR DO LANCE: {numberFormat(res.obs)}</Text>
+                        <Text style={styles.conteudo}> CONTATO: {res.telefone}</Text>
+                        <Text style={styles.conteudo}> NOME COMPRADOR: {res.name.toUpperCase()}</Text>
                     </View> 
                 ) 
             })}

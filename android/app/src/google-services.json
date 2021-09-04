@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "799373707066",
+    "project_id": "checkkm-342ab",
+    "storage_bucket": "checkkm-342ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799373707066:android:12e77cfb2a0122c3dd3203",
+        "android_client_info": {
+          "package_name": "com.checkkm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799373707066-rhdiuiroodeti7b2ffp8viid2in1p2t5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhPxCABfAGpABOJCih8ob9Otah5ZCLvMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799373707066-rhdiuiroodeti7b2ffp8viid2in1p2t5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

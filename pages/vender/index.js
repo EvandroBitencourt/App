@@ -10,6 +10,7 @@ import api from "../../service";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TextInputMask from 'react-native-text-input-mask';
 import CurrencyInput from 'react-native-currency-input';
+import ImageResizer from 'react-native-image-resizer';
 
 export class Vender extends React.Component {
     constructor(props) {
@@ -197,25 +198,27 @@ export class Vender extends React.Component {
             } else if (response.customButton) {
               console.log('User tapped custom button: ', response.customButton);
             } else {
-                
-              if (this.state.fotomomento == "foto01"){
-                  this.setState({ foto01: response.assets[0].uri })
-              }
-              if (this.state.fotomomento == "foto02"){
-                this.setState({ foto02: response.assets[0].uri })
-              }
-              if (this.state.fotomomento == "foto03"){
-                this.setState({ foto03: response.assets[0].uri })
-              }
-              if (this.state.fotomomento == "foto04"){
-                this.setState({ foto04: response.assets[0].uri })
-              }
-              if (this.state.fotomomento == "foto05"){
-                this.setState({ foto05: response.assets[0].uri })
-              }
-              if (this.state.fotomomento == "foto06"){
-                this.setState({ foto06: response.assets[0].uri })
-              }
+                ImageResizer.createResizedImage(response.assets[0].uri, 250, 250, 'JPEG', 80)
+                .then(response => {
+                    if (this.state.fotomomento == "foto01"){
+                        this.setState({ foto01: response.uri })
+                    }
+                    if (this.state.fotomomento == "foto02"){
+                    this.setState({ foto02: response.uri })
+                    }
+                    if (this.state.fotomomento == "foto03"){
+                    this.setState({ foto03: response.uri })
+                    }
+                    if (this.state.fotomomento == "foto04"){
+                    this.setState({ foto04: response.uri })
+                    }
+                    if (this.state.fotomomento == "foto05"){
+                    this.setState({ foto05: response.uri })
+                    }
+                    if (this.state.fotomomento == "foto06"){
+                    this.setState({ foto06: response.uri })
+                    }
+                })
 
             }
         });

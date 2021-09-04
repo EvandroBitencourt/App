@@ -145,7 +145,7 @@
                 <View style={styles.view}>
                     <Text style={styles.texto}> Acessórios do Veiculo </Text>
                     <Text style={{fontSize: 15, marginLeft: 10}}>
-                        AIR BAG: {carro[0]?.airbag == 1 ? <Badge value="NÃO TEM" status="error"/> : <Badge value="TEM" status="success"/>}
+                        AIR BAG: {carro[0]?.airbag == 0 ? <Badge value="NÃO TEM" status="error"/> : <Badge value="TEM" status="success"/>}
                     </Text>
                     <Text style={{fontSize: 15, marginLeft: 10}}>
                         AR CONDICIONADO: {carro[0]?.arcondicionado == 0 ? <Badge value="NÃO TEM" status="error"/> : <Badge value="TEM" status="success"/>}

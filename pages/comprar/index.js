@@ -4,6 +4,7 @@ import { Card, Button, Icon, Badge } from 'react-native-elements';
 import api from "../../service";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CountDown from 'react-native-countdown-component';
+import messaging from '@react-native-firebase/messaging';
 
 export class Comprar extends React.Component {
     constructor(props) {
@@ -35,8 +36,24 @@ export class Comprar extends React.Component {
             }).catch((err) => { 
                 
             });
+            this.checkToken(res);
         })
+        
     }
+
+
+       checkToken = async (res) => {
+        
+        await messaging().registerDeviceForRemoteMessages();
+          
+        const token = await messaging().getToken();
+        console.log(token)
+         api.defaults.headers.common = {"Authorization" : `Bearer ${res}`}
+         await api.post("/api/auth/tokenfcm", {token: token})
+          .then((response) => {  })
+       }
+       
+       
 
     detalheCarro = (carro) => {
         this.props.navigation.navigate('Detalhe', { carro: carro });
@@ -72,7 +89,7 @@ export class Comprar extends React.Component {
                     <Card key={i}>
                         <Card.Title h3>{res.marca.toUpperCase()}</Card.Title>
                         <View style={styles.container}>
-                        <Card.Image source={{ uri: 'https://checkkm.com.br/storage/app/public/carros/' + res.principal }}  style={{ width: 250, height: 200 }} PlaceholderContent={<ActivityIndicator />}></Card.Image>
+                        <Card.Image source={{ uri: 'https://checkkm.com.br/storage/app/public/carros/' + res.principal }}  style={{ width: 250, height: 200 }} ></Card.Image>
                         </View>
                         <Text style={{fontSize: 15}}>
                             MODELO: {res.modelo.toUpperCase()}
