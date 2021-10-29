@@ -275,7 +275,7 @@ export class Vender extends React.Component {
                     </Picker>
                 </View>
 
-                <View style={[styles.picker, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }>
+                <View >
                     <Picker  
                         selectedValue={this.state.direcao}
                         onValueChange={(itemValue, itemIndex) => this.setState({ direcao: itemValue}) }>

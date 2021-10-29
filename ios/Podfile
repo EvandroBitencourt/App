@@ -12,9 +12,10 @@ target 'checkkm' do
     :hermes_enabled => false
   )
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'React-RCTText', :path => '../node_modules/react-native/Libraries/Text', :modular_headers => true
+  use_frameworks!
 
-  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'checkkmTests' do
     inherit! :complete
@@ -25,7 +26,7 @@ target 'checkkm' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  #use_flipper!()
 
   post_install do |installer|
     react_native_post_install(installer)

@@ -107,7 +107,7 @@ export default function Login({ navigation }) {
 
   return (
     <>
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.containerLogo}>
           <Animated.Image
             style={{
