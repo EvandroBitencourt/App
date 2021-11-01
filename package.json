@@ -32,6 +32,7 @@
     "react-native-permissions": "^3.0.5",
     "react-native-safe-area-context": "^3.3.0",
     "react-native-screens": "^3.5.0",
+    "react-native-select-dropdown": "^1.2.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-text-input-mask": "^3.1.4",

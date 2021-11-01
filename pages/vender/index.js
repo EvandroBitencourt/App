@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, TextInput,TouchableOpacity, Alert} from 'react-native'
+import { Platform ,StyleSheet, ScrollView, View, TextInput,TouchableOpacity, Alert} from 'react-native'
 import { Text, Button } from 'react-native-elements';
 import Picker from 'react-native-universal-picker';
 import { ActivityIndicator } from 'react-native';
@@ -11,8 +11,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TextInputMask from 'react-native-text-input-mask';
 import CurrencyInput from 'react-native-currency-input';
 import ImageResizer from 'react-native-image-resizer';
+import SelectDropdown from 'react-native-select-dropdown';
 
 export class Vender extends React.Component {
+
+    cambios = ["Manual", "Automático", "Automatizado"]
+    direcoes = ["Normal", "Direção hidráulica", "Direção eletrica"]
+    motorizacao = ["1.0", "1.2", "1.3","1.4","1.5","1.6","1.7","1.8","1.9","2.0","2.2","2.3","2.4","2.5","2.7","2.8","3.0","3.2"
+                  ,"3.3","3.5","3.6","3.9","4.0","4.1","4.2","4.3","4.4","4.5","4.6","4.7","4.8","4.9","5.0","5.1","5.2","5.3","5.4"
+                  ,"5.5","5.6","5.7","5.8","5.9","6.0","6.1","6.2","6.3","6.4","6.5","6.6","6.7","V6","V8","125","150","160"
+                  ,"250","300","400","500","600","650","700","800","1000","1200","1600","1700"]
+
     constructor(props) {
         super(props);
         this.state = {
@@ -265,29 +274,59 @@ export class Vender extends React.Component {
                 />
 
                 <View style={[styles.picker, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }>
-                    <Picker  
+                    {Platform.OS === 'android' ?  <Picker  
                         selectedValue={this.state.cambio}
                         onValueChange={(itemValue, itemIndex) => this.setState({ cambio: itemValue}) }>
                             <Picker.Item label="Selecione o Cambio" value="" />
                             <Picker.Item label="Manual" value="Manual" />
                             <Picker.Item label="Automático" value="Automático" />
                             <Picker.Item label="Automatizado" value="Automatizado" />
-                    </Picker>
+                    </Picker> : 
+                    <SelectDropdown
+                            data={this.cambios}
+                            defaultButtonText={"Selecione o Cambio"}
+                            buttonStyle={{width: "100%" } }
+                            onSelect={(selectedItem, index) => {
+                                this.setState({ cambio: selectedItem })
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item, index) => {
+                               return item
+                            }}
+                        />
+                    }
                 </View>
 
-                <View >
-                    <Picker  
+                <View style={[styles.picker, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }>
+                {Platform.OS === 'android' ? <Picker  
                         selectedValue={this.state.direcao}
                         onValueChange={(itemValue, itemIndex) => this.setState({ direcao: itemValue}) }>
                             <Picker.Item label="Selecione o tipo da direção" value="" />
                             <Picker.Item label="Normal" value="Normal" />
                             <Picker.Item label="Direção hidráulica" value="Direção hidráulica" />
                             <Picker.Item label="Direção eletrica" value="Direção eletrica" />
-                    </Picker>
+                    </Picker> : 
+                    <SelectDropdown
+                            data={this.direcoes}
+                            defaultButtonText={"Selecione o tipo da direção"}
+                            buttonStyle={{width: "100%" } }
+                            onSelect={(selectedItem, index) => {
+                                this.setState({ direcao: selectedItem })
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item, index) => {
+                               return item
+                            }}
+                        />
+                    }
                 </View>
 
                 <View style={[styles.picker, {marginLeft:20, marginRight:20 , marginTop:10, marginBottom: 10, elevation: 3 }] }>
-                    <Picker  
+                {Platform.OS === 'android' ? <Picker  
                         selectedValue={this.state.motor}
                         onValueChange={(itemValue, itemIndex) => this.setState({ motor: itemValue}) }>
                             <Picker.Item label="Selecione a Motorização" value="" />
@@ -358,7 +397,22 @@ export class Vender extends React.Component {
                             <Picker.Item label="1200" value="1200" />
                             <Picker.Item label="1600" value="1600" />
                             <Picker.Item label="1700" value="1700" />
-                    </Picker>
+                    </Picker>: 
+                    <SelectDropdown
+                            data={this.motorizacao}
+                            defaultButtonText={"Selecione a Motorização"}
+                            buttonStyle={{width: "100%" } }
+                            onSelect={(selectedItem, index) => {
+                                this.setState({ motor: selectedItem })
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item, index) => {
+                               return item
+                            }}
+                        />
+                    }
                 </View>
 
                 <Text style={styles.text}>Acessórios</Text>
