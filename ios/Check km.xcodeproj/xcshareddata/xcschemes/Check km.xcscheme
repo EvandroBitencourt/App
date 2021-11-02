@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1210"
+   LastUpgradeVersion = "1130"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "checkkm.app"
-               BlueprintName = "checkkm"
+               BlueprintIdentifier = "ED827167272FA6BB00F82B9C"
+               BuildableName = "Check km.app"
+               BlueprintName = "Check km"
                ReferencedContainer = "container:Check km.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,16 +32,26 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "checkkmTests.xctest"
-               BlueprintName = "checkkmTests"
+               BlueprintIdentifier = "ED82717C272FA6CA00F82B9C"
+               BuildableName = "Check kmTests.xctest"
+               BlueprintName = "Check kmTests"
+               ReferencedContainer = "container:Check km.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ED827187272FA6CA00F82B9C"
+               BuildableName = "Check kmUITests.xctest"
+               BlueprintName = "Check kmUITests"
                ReferencedContainer = "container:Check km.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -54,9 +64,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "checkkm.app"
-            BlueprintName = "checkkm"
+            BlueprintIdentifier = "ED827167272FA6BB00F82B9C"
+            BuildableName = "Check km.app"
+            BlueprintName = "Check km"
             ReferencedContainer = "container:Check km.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -71,9 +81,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "checkkm.app"
-            BlueprintName = "checkkm"
+            BlueprintIdentifier = "ED827167272FA6BB00F82B9C"
+            BuildableName = "Check km.app"
+            BlueprintName = "Check km"
             ReferencedContainer = "container:Check km.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

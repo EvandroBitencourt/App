@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform ,StyleSheet, ScrollView, View, TextInput,TouchableOpacity, Alert} from 'react-native'
+import { Platform ,StyleSheet, ScrollView, View, TextInput,TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native'
 import { Text, Button } from 'react-native-elements';
 import Picker from 'react-native-universal-picker';
 import { ActivityIndicator } from 'react-native';
@@ -235,6 +235,7 @@ export class Vender extends React.Component {
 
     render() {
         return (<>
+        <KeyboardAvoidingView behavior="padding">
             <ScrollView style={styles.view}>
 
                 <Text style={styles.text}>Anunciar o Veiculo</Text>
@@ -702,7 +703,7 @@ export class Vender extends React.Component {
                     <Button loading={this.state.loading}title="Vender já" buttonStyle={{ backgroundColor: '#0bbcc9'}} onPress={this.vender} />
                 </View>
             </ScrollView>
-
+        </KeyboardAvoidingView> 
         </>);
     }
     
